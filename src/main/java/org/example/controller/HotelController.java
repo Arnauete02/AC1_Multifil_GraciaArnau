@@ -18,7 +18,7 @@ public class HotelController implements Runnable{
     @Override
     public void run() {
         try {
-            String[] lineas = Files.leerArchivo("C:\\Users\\Arnau\\Documents\\intellij\\m09\\AC1_Multifil_GraciaArnau\\src\\files");
+            String[] lineas = Files.leerArchivo("C:\\Users\\Arnau\\Documents\\intellij\\m09\\AC1_Multifil_GraciaArnau\\src\\files\\habitaciones.txt");
 
             for (String linea : lineas) {
                 String[] valores = linea.split(" ");
