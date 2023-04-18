@@ -23,6 +23,6 @@ public class DiasController implements Runnable {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        } while (panelHotel.getHotel().isOpen());
+        } while (!panelHotel.getHotel().isOpen());
     }
 }

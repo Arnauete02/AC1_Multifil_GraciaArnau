@@ -1,6 +1,6 @@
 package org.example.model;
 
-public class Tecnico {
+public class Tecnico implements Runnable{
     private int id;
     private Habitacion habitacion;
 
@@ -14,6 +14,11 @@ public class Tecnico {
     public Tecnico(int id, Habitacion habitacion) {
         this.id = id;
         this.habitacion = habitacion;
+    }
+
+    @Override
+    public void run() {
+
     }
 
     public int getId() {
@@ -31,5 +36,4 @@ public class Tecnico {
     public void setHabitacion(Habitacion habitacion) {
         this.habitacion = habitacion;
     }
-
 }

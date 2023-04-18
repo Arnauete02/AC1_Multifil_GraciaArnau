@@ -1,9 +1,8 @@
 package org.example.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.sun.source.tree.Tree;
+
+import java.util.*;
 
 public class Hotel {
     private String nombre;
@@ -16,7 +15,7 @@ public class Hotel {
 
     public Hotel(String nombre) {
         this.nombre = nombre;
-        this.habitaciones = new HashSet<>();
+        this.habitaciones = new TreeSet<>();
         this.tecnicos = new ArrayList<>();
         this.dinero = 0.0;
         this.dia = 0;
@@ -36,7 +35,7 @@ public class Hotel {
         return habitaciones;
     }
 
-    public void setHabitaciones(Set<Habitacion> habitaciones) {
+    public void setHabitaciones(TreeSet<Habitacion> habitaciones) {
         this.habitaciones = habitaciones;
     }
 

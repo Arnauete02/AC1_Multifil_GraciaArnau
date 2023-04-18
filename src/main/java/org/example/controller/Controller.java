@@ -22,13 +22,10 @@ public class Controller {
         PanelHotel panelHotel = new PanelHotel(hotel);
 
         Thread diasThread = new Thread(new DiasController(panelHotel));
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        diasThread.start();
 
         Thread hotelThread = new Thread(new HotelController(panelHotel));
+        hotelThread.start();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -36,6 +33,7 @@ public class Controller {
         }
 
         Thread clientsThread = new Thread(new ClientesController(panelHotel));
+        clientsThread.start();
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -43,10 +41,6 @@ public class Controller {
         }
 
         Thread incidenciasThread = new Thread(new IncidenciasController(panelHotel));
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        incidenciasThread.start();
     }
 }

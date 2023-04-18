@@ -3,6 +3,8 @@ package org.example.model;
 import org.example.utils.EstadoHabitacion;
 import org.example.utils.TipoHabitacion;
 
+import java.util.Objects;
+
 public class Habitacion implements Comparable<Habitacion> {
     private int numero;
     private EstadoHabitacion disponible;
@@ -23,17 +25,20 @@ public class Habitacion implements Comparable<Habitacion> {
 
     @Override
     public int compareTo(Habitacion o) {
-        return 0;
+        return this.numero - o.numero;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Habitacion that = (Habitacion) o;
+        return numero == that.numero;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+        return Objects.hash(numero);
     }
 
     public int getNumero() {

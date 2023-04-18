@@ -4,7 +4,10 @@ import org.example.utils.EstadoHabitacion;
 import org.example.utils.TipoHabitacion;
 import org.example.view.PanelHotel;
 
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Cliente implements Runnable{
     private int id;
@@ -28,41 +31,44 @@ public class Cliente implements Runnable{
 
     @Override
     public void run() {
-        Habitacion habitacion = this.searchHabitacion();
+        Habitacion habitacion = searchHabitacion();
 
         if (habitacion != null) {
             habitacion.setDisponible(EstadoHabitacion.OCUPADA);
+
             panelHotel.getHotel().setDinero(panelHotel.getHotel().getDinero() + habitacion.getPrecioNoche());
+
+            for (int i = 0; i < this.dias; i++) {
+                try {
+                    Thread.sleep(2000);
+
+                    if (habitacion.getDisponible() == EstadoHabitacion.AVERIADA) {
+                        if (this.searchHabitacion() == null) {
+                            panelHotel.getHotel().setPersonasPerdidas(panelHotel.getHotel().getPersonasPerdidas() + 1);
+                            panelHotel.getHotel().setDinero(panelHotel.getHotel().getDinero() - 1000 - habitacion.getPrecioNoche());
+                            break;
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if (habitacion.getDisponible() != EstadoHabitacion.AVERIADA) {
+                habitacion.setDisponible(EstadoHabitacion.DISPONIBLE);
+            }
         } else {
             panelHotel.getHotel().setPersonasPerdidas(panelHotel.getHotel().getPersonasPerdidas() + 1);
             panelHotel.getHotel().setDinero(panelHotel.getHotel().getDinero() - 1000);
         }
-
-        for (int i = 0; i < this.dias; i++) {
-            try {
-                Thread.sleep(2000);
-
-                if (habitacion.getDisponible() == EstadoHabitacion.AVERIADA) {
-                    if (this.searchHabitacion() == null) {
-                        panelHotel.getHotel().setPersonasPerdidas(panelHotel.getHotel().getPersonasPerdidas() + 1);
-                        panelHotel.getHotel().setDinero(panelHotel.getHotel().getDinero() - 1000); //TODO -> y también restas el precio ingresado de esta habitación.
-                        i = this.dias;
-                    }
-                }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        habitacion.setDisponible(EstadoHabitacion.DISPONIBLE);
     }
 
-    private Habitacion searchHabitacion() {
+    private synchronized Habitacion searchHabitacion() {
         Set<Habitacion> habitaciones = panelHotel.getHotel().getHabitaciones();
 
         for (Habitacion habitacion : habitaciones) {
             if (this.tipoHabitacion.getTipo() == habitacion.getTipo()
-                    && this.personas == habitacion.getCapacidad()) {
+                    && this.personas <= habitacion.getCapacidad() && habitacion.getDisponible() == EstadoHabitacion.DISPONIBLE) {
                 return habitacion;
             }
         }

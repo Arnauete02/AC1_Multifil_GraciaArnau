@@ -1,12 +1,18 @@
 package org.example.controller;
 
 import org.example.model.Habitacion;
+import org.example.utils.Constants;
 import org.example.utils.EstadoHabitacion;
 import org.example.utils.Files;
 import org.example.view.PanelHotel;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ConcurrentModificationException;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class IncidenciasController implements Runnable {
     private PanelHotel panelHotel;
@@ -18,28 +24,47 @@ public class IncidenciasController implements Runnable {
     @Override
     public void run() {
         try {
-            String[] lineas = Files.leerArchivo("C:\\Users\\Arnau\\Documents\\intellij\\m09\\AC1_Multifil_GraciaArnau\\src\\files\\incidencias.txt");
-            String[] valores = null;
+            BufferedReader reader = new BufferedReader(new FileReader(Constants.INCIDENCIAS));
+            String line = reader.readLine();
 
-            for (String linea : lineas) {
-                valores = linea.split(" ");
+            while (line != null) {
+                try {
+                    String[] valores = line.split(" ");
+                    char tipoAveria = valores[0].charAt(0);
 
-                Thread.sleep(Integer.parseInt(valores[1]));
+                    Thread.sleep(Integer.parseInt(valores[1]));
 
-                if (valores[0].equals("P")) {
-                    for (Habitacion habitacion : panelHotel.getHotel().getHabitaciones()) {
-                        if ((Integer.parseInt(valores[2]) / 100) == (habitacion.getNumero() / 100)) {
-                            habitacion.setDisponible(EstadoHabitacion.AVERIADA);
-                        }
+                    Set<Habitacion> habitaciones = panelHotel.getHotel().getHabitaciones();
+
+                    switch (tipoAveria) {
+                        case 'P':
+                            for (Habitacion habitacion : habitaciones) {
+                                if ((Integer.parseInt(valores[2]) / 100) == (habitacion.getNumero() / 100)) {
+                                    habitacion.setDisponible(EstadoHabitacion.AVERIADA);
+                                }
+                            }
+                            break;
+                        case 'A':
+                            for (Habitacion habitacion : habitaciones) {
+                                if (habitacion.getNumero() == Integer.parseInt(valores[2])) {
+                                    habitacion.setDisponible(EstadoHabitacion.AVERIADA);
+                                }
+                            }
+                            break;
+                        default:
+                            System.err.println("Incidencia no reconocida: " + line);
+                            break;
                     }
-                } else if (valores[0].equals("A")) {
-                    for (Habitacion habitacion : panelHotel.getHotel().getHabitaciones()) {
-                        if (habitacion.getNumero() == Integer.parseInt(valores[2])) {
-                            habitacion.setDisponible(EstadoHabitacion.AVERIADA);
-                        }
-                    }
+
+                    Thread.sleep(500);
+
+                    line = reader.readLine();
+                } catch (ConcurrentModificationException e) {
+                    throw new RuntimeException(e);
                 }
             }
+
+            reader.close();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
