@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.model.Habitacion;
+import org.example.model.HabitacionBuilder;
 import org.example.utils.Constants;
 import org.example.utils.EstadoHabitacion;
 import org.example.utils.Files;
@@ -29,8 +30,13 @@ public class HotelController implements Runnable{
             while ((linea = reader.readLine()) != null) {
                 String[] valores = linea.split(" ");
 
-                Habitacion habitacion = new Habitacion(Integer.parseInt(valores[0]), EstadoHabitacion.valueOf(valores[1].toUpperCase()), TipoHabitacion.valueOf(valores[2].toLowerCase()),
-                        Integer.parseInt(valores[3]), Double.parseDouble(valores[4]));
+                Habitacion habitacion = new HabitacionBuilder()
+                        .setNumero(Integer.parseInt(valores[0]))
+                        .setDisponible(EstadoHabitacion.valueOf(valores[1].toUpperCase()))
+                        .setTipo(TipoHabitacion.valueOf(valores[2].toLowerCase()))
+                        .setCapacidad(Integer.parseInt(valores[3]))
+                        .setPrecioNoche(Double.parseDouble(valores[4]))
+                        .build();
 
                 panelHotel.getHotel().getHabitaciones().add(habitacion);
                 panelHotel.actualizar();

@@ -12,9 +12,6 @@ public class Habitacion implements Comparable<Habitacion> {
     private int capacidad;
     private double precioNoche;
 
-    public Habitacion() {
-    }
-
     public Habitacion(int numero, EstadoHabitacion disponible, TipoHabitacion tipo, int capacidad, double precioNoche) {
         this.numero = numero;
         this.disponible = disponible;
@@ -45,10 +42,6 @@ public class Habitacion implements Comparable<Habitacion> {
         return numero;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
     public EstadoHabitacion getDisponible() {
         return disponible;
     }
@@ -61,23 +54,11 @@ public class Habitacion implements Comparable<Habitacion> {
         return tipo.getTipo();
     }
 
-    public void setTipo(TipoHabitacion tipo) {
-        this.tipo = tipo;
-    }
-
     public int getCapacidad() {
         return capacidad;
     }
 
-    public void setCapacidad(int capacidad) {
-        this.capacidad = capacidad;
-    }
-
     public double getPrecioNoche() {
         return precioNoche;
-    }
-
-    public void setPrecioNoche(double precioNoche) {
-        this.precioNoche = precioNoche;
     }
 }

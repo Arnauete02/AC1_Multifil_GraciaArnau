@@ -27,24 +27,12 @@ public class Hotel {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public Set<Habitacion> getHabitaciones() {
         return habitaciones;
     }
 
-    public void setHabitaciones(TreeSet<Habitacion> habitaciones) {
-        this.habitaciones = habitaciones;
-    }
-
     public List<Tecnico> getTecnicos() {
         return tecnicos;
-    }
-
-    public void setTecnicos(List<Tecnico> tecnicos) {
-        this.tecnicos = tecnicos;
     }
 
     public double getDinero() {
@@ -73,9 +61,5 @@ public class Hotel {
 
     public boolean isOpen() {
         return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
     }
 }

@@ -42,5 +42,7 @@ public class Controller {
 
         Thread incidenciasThread = new Thread(new IncidenciasController(panelHotel));
         incidenciasThread.start();
+
+
     }
 }

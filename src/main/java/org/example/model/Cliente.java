@@ -17,9 +17,6 @@ public class Cliente implements Runnable{
     private int dias;
     private PanelHotel panelHotel;
 
-    public Cliente() {
-    }
-
     public Cliente(int id, String nombre, int personas, TipoHabitacion tipoHabitacion, int dias, PanelHotel panelHotel) {
         this.id = id;
         this.nombre = nombre;
