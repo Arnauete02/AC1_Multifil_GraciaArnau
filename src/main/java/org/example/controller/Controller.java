@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import org.example.model.Hotel;
+import org.example.model.Tecnico;
 import org.example.view.PanelHotel;
 
 public class Controller {
@@ -42,7 +43,5 @@ public class Controller {
 
         Thread incidenciasThread = new Thread(new IncidenciasController(panelHotel));
         incidenciasThread.start();
-
-
     }
 }
